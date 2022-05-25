@@ -9,7 +9,7 @@
 			"value": ""
 		},
 		"AzureMySql1_connectionString": {
-			"value": ""
+			"value": "[parameters('AzureMySql1_connectionString')]"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://datalakemiki.dfs.core.chinacloudapi.cn"

@@ -12,8 +12,8 @@
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
 		"AzureMySql1_connectionString": {
-			"type": "String",
-			"metadata": "Secure string for 'connectionString' of 'AzureMySql1'"
+			"type": "secureString",
+			"defaultValue": "[parameters('AzureMySql1_connectionString')]"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
@@ -49,7 +49,10 @@
 				"annotations": [],
 				"type": "AzureMySql",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureMySql1_connectionString')]"
+					"connectionString": {
+						"type": "SecureString",
+						"value": "[parameters('AzureMySql1_connectionString')]"
+					}
 				}
 			},
 			"dependsOn": []
