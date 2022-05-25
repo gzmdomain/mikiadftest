@@ -19,6 +19,9 @@
 			"type": "string",
 			"defaultValue": "https://datalakemiki.dfs.core.chinacloudapi.cn"
 		},
+		"AzureMySql1_properties_typeProperties_connectionString": {
+			"type": "string"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -54,6 +57,9 @@
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureMySql1_properties_typeProperties_connectionString": {
+						"value": "[parameters('AzureMySql1_properties_typeProperties_connectionString')]"
 					}
 				}
 			},
