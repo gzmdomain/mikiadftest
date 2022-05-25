@@ -5,9 +5,6 @@
 		"factoryName": {
 			"value": "mikiadf"
 		},
-		"AzureBlobStorage1_connectionString": {
-			"value": ""
-		},
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
