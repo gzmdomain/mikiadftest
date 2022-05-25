@@ -14,9 +14,6 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://datalakemiki.dfs.core.chinacloudapi.cn"
 		},
-		"AzureMySql1_properties_typeProperties_connectionString": {
-			"value": ""
-		},
 		"containerUri": {
 			"value": ""
 		},

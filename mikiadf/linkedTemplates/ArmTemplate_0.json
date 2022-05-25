@@ -18,10 +18,6 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://datalakemiki.dfs.core.chinacloudapi.cn"
-		},
-		"AzureMySql1_properties_typeProperties_connectionString": {
-			"type": "string",
-			"defaultValue": "[parameters('AzureMySql1_connectionString')]"
 		}
 	},
 	"variables": {
@@ -55,7 +51,7 @@
 				"typeProperties": {
 					"connectionString": {
 						"type": "SecureString",
-						"value": "[parameters('AzureMySql1_properties_typeProperties_connectionString')]"
+						"value": "[parameters('AzureMySql1_connectionString')]"
 					}
 				}
 			},
