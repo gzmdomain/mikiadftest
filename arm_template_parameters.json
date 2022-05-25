@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "mikiadf"
+        },
+        "AzureSynapseAnalytics1_connectionString": {
+            "value": ""
+        },
+        "mikidatalaketestforendpoint_servicePrincipalCredential": {
+            "value": ""
+        },
+        "mikisynapsetestcopy_connectionString": {
+            "value": ""
+        },
+        "AzureDataLakeStorage2_servicePrincipalCredential": {
+            "value": ""
+        },
+        "AzureDataLakeStorage1_servicePrincipalCredential": {
+            "value": ""
+        },
+        "Salesforce1_password": {
+            "value": ""
+        },
+        "Salesforce1_securityToken": {
+            "value": ""
+        },
+        "AzureBlobStorage1sales_connectionString": {
+            "value": ""
+        },
+        "mikidatalaketestforendpoint_properties_typeProperties_url": {
+            "value": "https://datalakemiki.dfs.core.chinacloudapi.cn"
+        },
+        "mikidatalaketestforendpoint_properties_typeProperties_tenant": {
+            "value": "954ddad8-66d7-47a8-8f9f-1316152d9587"
+        },
+        "mikidatalaketestforendpoint_properties_typeProperties_servicePrincipalId": {
+            "value": "bc7e6800-3e4d-407f-8c4c-d2d8ed790986"
+        },
+        "AzureDataLakeStorage2_properties_typeProperties_url": {
+            "value": "https://datalakemiki.dfs.core.chinacloudapi.cn"
+        },
+        "AzureDataLakeStorage2_properties_typeProperties_tenant": {
+            "value": "954ddad8-66d7-47a8-8f9f-1316152d9587"
+        },
+        "AzureDataLakeStorage2_properties_typeProperties_servicePrincipalId": {
+            "value": "bc7e6800-3e4d-407f-8c4c-d2d8ed790986"
+        },
+        "AzureDataLakeStorage1_properties_typeProperties_url": {
+            "value": "https://datalakemiki.dfs.core.chinacloudapi.cn"
+        },
+        "AzureDataLakeStorage1_properties_typeProperties_tenant": {
+            "value": "954ddad8-66d7-47a8-8f9f-1316152d9587"
+        },
+        "AzureDataLakeStorage1_properties_typeProperties_servicePrincipalId": {
+            "value": "bc7e6800-3e4d-407f-8c4c-d2d8ed790986"
+        },
+        "Salesforce1_properties_typeProperties_environmentUrl": {
+            "value": "https://login.salesforce.com"
+        },
+        "Salesforce1_properties_typeProperties_username": {
+            "value": "miki"
+        }
+    }
+}
