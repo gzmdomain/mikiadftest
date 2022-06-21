@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "AzurePostgreSql",
 		"typeProperties": {
-			"connectionString": "Host=mikipfstest.postgres.database.chinacloudapi.cn;Port=5432;Database=master;UID=mikiadmin@mikipfstest;EncryptionMethod=0",
+			"connectionString": "Host=mikipfstest.postgres.database.chinacloudapi.cn;Port=5432;Database=miki;UID=mikiadmin@mikipfstest;EncryptionMethod=0",
 			"password": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
