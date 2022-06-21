@@ -1,0 +1,35 @@
+{
+	"name": "UpsUserHistory",
+	"properties": {
+		"activities": [
+			{
+				"name": "UpsUserHistory Export",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "5.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UpsUserHistory",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 80,
+						"computeType": "MemoryOptimized"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "HistoryDataMigration/Ups"
+		},
+		"annotations": []
+	}
+}
