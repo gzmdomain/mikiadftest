@@ -1,0 +1,18 @@
+{
+	"name": "ups_nonprodcn",
+	"properties": {
+		"annotations": [],
+		"type": "AzurePostgreSql",
+		"typeProperties": {
+			"connectionString": "Host=mikipfstest.postgres.database.chinacloudapi.cn;Port=5432;Database=master;UID=mikiadmin@mikipfstest;EncryptionMethod=0",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "ups-nonprodcn-DBREADERPASSWOR"
+			}
+		}
+	}
+}
