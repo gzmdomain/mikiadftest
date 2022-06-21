@@ -15,9 +15,25 @@
 			"type": "secureString",
 			"defaultValue": "[parameters('AzureMySql1_connectionString')]"
 		},
+		"ups_nonprodcn_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('ups_nonprodcn_connectionString')]"
+		},
+		"Ups_UserHistoryBlob_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('Ups_UserHistoryBlob_connectionString')]"
+		},
+		"hstbufferstoragecn_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('hstbufferstoragecn_connectionString')]"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://datalakemiki.dfs.core.chinacloudapi.cn"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://mikiadftest.vault.azure.cn/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -52,8 +68,20 @@
 					"AzureMySql1_connectionString": {
 						"value": "[parameters('AzureMySql1_connectionString')]"
 					},
+					"Ups_UserHistoryBlob_connectionString": {
+						"value": "[parameters('Ups_UserHistoryBlob_connectionString')]"
+					},
+					"hstbufferstoragecn_connectionString": {
+						"value": "[parameters('hstbufferstoragecn_connectionString')]"
+					},
+					"ups_nonprodcn_connectionString": {
+						"value": "[parameters('ups_nonprodcn_connectionString')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					}
 				}
 			},

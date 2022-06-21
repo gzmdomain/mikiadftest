@@ -15,9 +15,25 @@
 			"type": "secureString",
 			"defaultValue": "[parameters('AzureMySql1_connectionString')]"
 		},
+		"Ups_UserHistoryBlob_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('Ups_UserHistoryBlob_connectionString')]"
+		},
+		"hstbufferstoragecn_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('hstbufferstoragecn_connectionString')]"
+		},
+		"ups_nonprodcn_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('ups_nonprodcn_connectionString')]"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://datalakemiki.dfs.core.chinacloudapi.cn"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://mikiadftest.vault.azure.cn/"
 		}
 	},
 	"variables": {
@@ -52,6 +68,51 @@
 					"connectionString": {
 						"type": "SecureString",
 						"value": "[parameters('AzureMySql1_connectionString')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ups_UserHistoryBlob')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "SecureString",
+						"value": "[parameters('Ups_UserHistoryBlob_connectionString')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/hstbufferstoragecn')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "SecureString",
+						"value": "[parameters('hstbufferstoragecn_connectionString')]"
 					}
 				}
 			},
@@ -222,6 +283,311 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ups_nonprodcn')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzurePostgreSql",
+				"typeProperties": {
+					"connectionString": {
+						"type": "SecureString",
+						"value": "[parameters('ups_nonprodcn_connectionString')]"
+					},
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault1",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "ups-nonprodcn-DBREADERPASSWOR"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ups_UserHistoryBlob')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "hstbufferstoragecn",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Ups"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "ups-user-history-nonprodcn"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "header",
+						"type": "String"
+					},
+					{
+						"name": "payload",
+						"type": "String"
+					},
+					{
+						"name": "microService",
+						"type": "String"
+					},
+					{
+						"name": "operationType",
+						"type": "String"
+					},
+					{
+						"name": "domainType",
+						"type": "String"
+					},
+					{
+						"name": "birthday",
+						"type": "String"
+					},
+					{
+						"name": "ciamId",
+						"type": "String"
+					},
+					{
+						"name": "createdAt",
+						"type": "String"
+					},
+					{
+						"name": "createdBy",
+						"type": "String"
+					},
+					{
+						"name": "email",
+						"type": "String"
+					},
+					{
+						"name": "firstName",
+						"type": "String"
+					},
+					{
+						"name": "landlinePhone",
+						"type": "String"
+					},
+					{
+						"name": "lastName1",
+						"type": "String"
+					},
+					{
+						"name": "lastName2",
+						"type": "String"
+					},
+					{
+						"name": "middleInitial",
+						"type": "String"
+					},
+					{
+						"name": "mobilePhone",
+						"type": "String"
+					},
+					{
+						"name": "namePrefix",
+						"type": "String"
+					},
+					{
+						"name": "preferredLanguageCode",
+						"type": "String"
+					},
+					{
+						"name": "salutationCode",
+						"type": "String"
+					},
+					{
+						"name": "title",
+						"type": "String"
+					},
+					{
+						"name": "userId",
+						"type": "String"
+					},
+					{
+						"name": "verifiedAt",
+						"type": "String"
+					},
+					{
+						"name": "verifiedBy",
+						"type": "String"
+					},
+					{
+						"name": "addressLine1",
+						"type": "String"
+					},
+					{
+						"name": "addressLine2",
+						"type": "String"
+					},
+					{
+						"name": "addressLine3",
+						"type": "String"
+					},
+					{
+						"name": "city",
+						"type": "String"
+					},
+					{
+						"name": "doorNo",
+						"type": "String"
+					},
+					{
+						"name": "floorNo",
+						"type": "String"
+					},
+					{
+						"name": "houseNo",
+						"type": "String"
+					},
+					{
+						"name": "houseName",
+						"type": "String"
+					},
+					{
+						"name": "province",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "street",
+						"type": "String"
+					},
+					{
+						"name": "streetType",
+						"type": "String"
+					},
+					{
+						"name": "zipCode",
+						"type": "String"
+					},
+					{
+						"name": "pobox",
+						"type": "String"
+					},
+					{
+						"name": "countryCode",
+						"type": "String"
+					},
+					{
+						"name": "contactedByEmail",
+						"type": "String"
+					},
+					{
+						"name": "contactedByLetter",
+						"type": "String"
+					},
+					{
+						"name": "contactedByPhone",
+						"type": "String"
+					},
+					{
+						"name": "contactedBySms",
+						"type": "String"
+					},
+					{
+						"name": "isEmailCiamVerified",
+						"type": "String"
+					},
+					{
+						"name": "isMobileCIamVerified",
+						"type": "String"
+					},
+					{
+						"name": "accountIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "updatedAt",
+						"type": "String"
+					},
+					{
+						"name": "vip",
+						"type": "String"
+					},
+					{
+						"name": "caseNumber",
+						"type": "String"
+					},
+					{
+						"name": "taxNumber",
+						"type": "String"
+					},
+					{
+						"name": "identificationNumber",
+						"type": "String"
+					},
+					{
+						"name": "identificationType",
+						"type": "String"
+					},
+					{
+						"name": "donateGui",
+						"type": "String"
+					},
+					{
+						"name": "eGuiPreference",
+						"type": "String"
+					},
+					{
+						"name": "mobilePhoneCarrier",
+						"type": "String"
+					},
+					{
+						"name": "placeOfBirth",
+						"type": "String"
+					},
+					{
+						"name": "genderOfBirth",
+						"type": "String"
+					},
+					{
+						"name": "lowerEmail",
+						"type": "String"
+					},
+					{
+						"name": "citizenshipDigitalCertificateCarrier",
+						"type": "String"
+					},
+					{
+						"name": "xTrackingId",
+						"type": "String"
+					},
+					{
+						"name": "xServiceName",
+						"type": "String"
+					},
+					{
+						"name": "xApplicationName",
+						"type": "String"
+					},
+					{
+						"name": "xActingUser",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/hstbufferstoragecn')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -314,6 +680,134 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureMySqlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureMySqlTable1",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'select * from mikitest',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Column_1 as string,",
+						"          Column_2 as string,",
+						"          Column_3 as string,",
+						"          Column_4 as string,",
+						"          Column_5 as string,",
+						"          Column_6 as string,",
+						"          Column_7 as string,",
+						"          Column_8 as string,",
+						"          Column_9 as string,",
+						"          Column_10 as string,",
+						"          Column_11 as string,",
+						"          Column_12 as string,",
+						"          Column_13 as string,",
+						"          Column_14 as string,",
+						"          Column_15 as string,",
+						"          Column_16 as string,",
+						"          Column_17 as string,",
+						"          Column_18 as string,",
+						"          Column_19 as string,",
+						"          Column_20 as string,",
+						"          Column_21 as string,",
+						"          Column_22 as string,",
+						"          Column_23 as string,",
+						"          Column_24 as string,",
+						"          Column_25 as string,",
+						"          Column_26 as string,",
+						"          Column_27 as string,",
+						"          Column_28 as string,",
+						"          Column_29 as string,",
+						"          Column_30 as string,",
+						"          Column_31 as string,",
+						"          Column_32 as string,",
+						"          Column_33 as string,",
+						"          Column_34 as string,",
+						"          Column_35 as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureMySqlTable1')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UpsUserHistory')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "History/Ups"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "ups_nonprodcn",
+								"type": "LinkedServiceReference"
+							},
+							"name": "UpsUserHistoryQuery"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Ups_UserHistoryBlob",
+								"type": "DatasetReference"
+							},
+							"name": "ExportBlob"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Transform"
+						},
+						{
+							"name": "SelectColumns"
+						}
+					],
+					"script": "source(output(\n\t\toid as long,\n\t\trev as long,\n\t\trevtype as short,\n\t\tbirthday as date,\n\t\tciam_id as string,\n\t\tcreated_at as timestamp,\n\t\tcreated_by as string,\n\t\temail as string,\n\t\tfirst_name as string,\n\t\tlandline_phone as string,\n\t\tlast_name1 as string,\n\t\tlast_name2 as string,\n\t\tmiddle_initial as string,\n\t\tmobile_phone as string,\n\t\tname_prefix as string,\n\t\tpreferred_language_code as string,\n\t\tsalutation_code as string,\n\t\ttitle as string,\n\t\tuser_id as string,\n\t\tverified_at as timestamp,\n\t\tverified_by as string,\n\t\taddress_line1 as string,\n\t\taddress_line2 as string,\n\t\taddress_line3 as string,\n\t\tcity as string,\n\t\tcountry_code as string,\n\t\tdoor_no as string,\n\t\tfloor_no as string,\n\t\thouse_name as string,\n\t\thouse_no as string,\n\t\tprovince as string,\n\t\tstate as string,\n\t\tstreet as string,\n\t\tstreet_type as string,\n\t\tzip_code as string,\n\t\tpobox as string,\n\t\tcontacted_by_email as boolean,\n\t\tcontacted_by_letter as boolean,\n\t\tcontacted_by_phone as boolean,\n\t\tcontacted_by_sms as boolean,\n\t\tis_mobile_ciam_verified as boolean,\n\t\tis_email_ciam_verified as boolean,\n\t\taccount_identifier as string,\n\t\tupdated_at as timestamp,\n\t\tvip as boolean,\n\t\tcase_number as string,\n\t\ttax_number as string,\n\t\tlower_email as string,\n\t\tnationality as string,\n\t\tmobile_phone_carrier as string,\n\t\tcitizenship_digital_certificate_carrier as string,\n\t\tdonate_gui as string,\n\t\te_gui_preference as string,\n\t\ttoas_accepted as boolean,\n\t\tidentification_number as string,\n\t\tidentification_type as string,\n\t\tplace_of_birth as string,\n\t\tgender_of_birth as string,\n\t\tid as long,\n\t\ttimestamp as long,\n\t\tusername as string,\n\t\tacting_user as string,\n\t\ttracking_id as string,\n\t\tservice_name as string,\n\t\tapplication_name as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'query',\n\tquery: 'SELECT * FROM user_profile_h uph INNER JOIN revision_info ri ON uph.rev = ri.id',\n\tstore: 'postgres',\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tbatchSize: 100000,\n\tpartitionBy('roundRobin', 20)) ~> UpsUserHistoryQuery\nUpsUserHistoryQuery derive(revision_timestamp = toDate(timestamp, 'yyyy-MM-dd'),\n\t\ttimestamp = toTimestamp(timestamp, 'yyyy-MM-dd HH:mm:ss'),\n\t\tpayload = '{'     \n    + '\"oid\": '+ coalesce(toString(oid),'0')\n    + ',\"userId\": \"'+ coalesce(user_id,'') + '\"' \n    + ',\"ciamId\": \"'+ coalesce(ciam_id,'') + '\"' \n    + ',\"createdAt\": \"'+ coalesce(toString(created_at),'') + '\"'\n    + ',\"lastName1\": \"'+ coalesce(last_name1,'') + '\"'\n    + ',\"lastName2\": \"'+ coalesce(last_name2,'') + '\"'\n    + ',\"landlinePhone\": \"'+ coalesce(landline_phone,'') + '\"'\n    + ',\"preferredLanguageCode\": \"'+ coalesce(preferred_language_code,'') + '\"' \n    + ',\"vip\": '+ coalesce(toString(vip),'false')\n    + ',\"toasAccepted\": '+ coalesce(toString(toas_accepted),'false')\n    + ',\"salutationCode\": \"'+ coalesce(salutation_code,'') + '\"'   \n    + ',\"email\": \"'+ coalesce(email,'') + '\"' \n    + ',\"lowerEmail\": \"'+ coalesce(lower_email,'') + '\"' \n    + ',\"mobilePhoneNumber\": \"'+ coalesce(mobile_phone,'') + '\"' \n    + ',\"createdBy\": \"'+ coalesce(created_by,'') + '\"' \n    + ',\"namePrefix\": \"'+ coalesce(name_prefix,'') + '\"' \n    + ',\"birthday\": \"'+ coalesce(toString(birthday),'') + '\"' \n    + ',\"verifiedBy\": \"'+ coalesce(verified_by,'') + '\"' \n    + ',\"middleInitial\": \"'+ coalesce(middle_initial,'') + '\"' \n    + ',\"verifiedAt\": \"'+ coalesce(toString(verified_at),'') + '\"'\n    + ',\"updatedAt\": \"'+ coalesce(toString(updated_at),'') + '\"' \n    + ',\"firstName\": \"'+ coalesce(first_name,'') + '\"' \n    + ',\"title\": \"'+ coalesce(toString(title),'') + '\"' \n    + ',\"taxNumber\": \"'+ coalesce(tax_number,'') + '\"' \n    + ',\"identificationNumber\": \"'+ coalesce(identification_number,'') + '\"' \n    + ',\"isMobileCiamVerified\": '+ coalesce(toString(is_mobile_ciam_verified),'false')\n    + ',\"isEmailCiamVerified\": '+ coalesce(toString(is_email_ciam_verified),'false') \n    + ',\"accountIdentifier\": \"'+ coalesce(account_identifier,'') + '\"'\n    + ',\"identificationType\": \"'+ coalesce(identification_type,'') + '\"' \n    + ',\"caseNumber\": \"'+ coalesce(case_number,'') + '\"' \n    + ',\"placeOfBirth\": \"'+ coalesce(place_of_birth,'') + '\"' \n    + ',\"genderOfBirth\": \"'+ coalesce(gender_of_birth,'') + '\"' \n    + ',\"mobilePhoneCarrier\": \"'+ coalesce(mobile_phone_carrier,'') + '\"'\n    + ',\"citizenshipDigitalCertificateCarrier\": \"'+ coalesce(citizenship_digital_certificate_carrier,'') + '\"' \n    + ',\"donateGui\": \"'+ coalesce(donate_gui,'') + '\"' \n    + ',\"eGuiPreference\": \"'+ coalesce(e_gui_preference,'') + '\"' \n    + ',\"address\": {'\n        + '\"floorNo\": \"'+ coalesce(floor_no,'') + '\"' \n        + ',\"street\": \"'+ coalesce(street,'') + '\"' \n        + ',\"houseNo\": \"'+ coalesce(house_no,'') + '\"' \n        + ',\"streetType\": \"'+ coalesce(street_type,'') + '\"' \n        + ',\"doorNo\": \"'+ coalesce(door_no,'') + '\"' \n        + ',\"addressLine1\": \"'+ coalesce(address_line1,'') + '\"' \n        + ',\"addressLine2\": \"'+ coalesce(address_line2,'') + '\"' \n        + ',\"addressLine3\": \"'+ coalesce(address_line3,'') + '\"' \n        + ',\"postOfficeBox\": \"'+ coalesce(pobox,'') + '\"' \n        + ',\"countryCode\": \"'+ coalesce(country_code,'') + '\"' \n        + ',\"zipCode\": \"'+ coalesce(zip_code,'') + '\"' \n        + ',\"city\": \"'+ coalesce(city,'') + '\"' \n        + ',\"province\": \"'+ coalesce(province,'') + '\"' \n        + ',\"state\": \"'+ coalesce(state,'') + '\"' \n        + ',\"houseName\": \"'+ coalesce(house_name,'') + '\"' \n    +'},\"communicationPreferences\": {'\n        + '\"contactedByPhone\": '+ coalesce(toString(contacted_by_phone),'false')\n        + ',\"contactedByLetter\": '+ coalesce(toString(contacted_by_letter),'false')\n        + ',\"contactedByEmail\": '+ coalesce(toString(contacted_by_email),'false')\n        + ',\"contactedBySms\": '+ coalesce(toString(contacted_by_sms),'false')\n    +'}'\n+'}',\n\t\theader = '{'     \n    + '\"X-RequestStartTime\": \"'+ coalesce(toString(timestamp),'') + '\"' \n    + ',\"X-ServiceName\": \"'+ coalesce(service_name,'') + '\"'\n    + ',\"X-ApplicationName\": \"'+ coalesce(application_name,'') + '\"'\n    + ',\"X-ActingUser\": \"'+ coalesce(acting_user,'') + '\"'\n    + ',\"X-TrackingId\": \"'+ coalesce(tracking_id,'') + '\"'\n+'}',\n\t\toperationType = case(revtype == 0, 'CREATE', \n    case(revtype == 2, 'DELETE',\n    'UPDATE'\n    )\n),\n\t\tdomainType = 'UserProfileHistory',\n\t\tmicroService = 'UPS') ~> Transform\nTransform select(mapColumn(\n\t\theader,\n\t\tpayload,\n\t\tmicroService,\n\t\toperationType,\n\t\tdomainType,\n\t\ttimestamp,\n\t\tbirthday,\n\t\tciamId = ciam_id,\n\t\tcreatedAt = created_at,\n\t\tcreatedBy = created_by,\n\t\temail,\n\t\tfirstName = first_name,\n\t\tlandlinePhone = landline_phone,\n\t\tlastName1 = last_name1,\n\t\tlastName2 = last_name2,\n\t\tmiddleInitial = middle_initial,\n\t\tmobilePhone = mobile_phone,\n\t\tnamePrefix = name_prefix,\n\t\tpreferredLanguageCode = preferred_language_code,\n\t\tsalutationCode = salutation_code,\n\t\ttitle,\n\t\tuserId = user_id,\n\t\tverifiedAt = verified_at,\n\t\tverifiedBy = verified_by,\n\t\taddressLine1 = address_line1,\n\t\taddressLine2 = address_line2,\n\t\taddressLine3 = address_line3,\n\t\tcity,\n\t\tdoorNo = door_no,\n\t\tfloorNo = floor_no,\n\t\thouseNo = house_no,\n\t\thouseName = house_name,\n\t\tprovince,\n\t\tstate,\n\t\tstreet,\n\t\tstreetType = street_type,\n\t\tzipCode = zip_code,\n\t\tpobox,\n\t\tcountryCode = country_code,\n\t\tcontactedByEmail = contacted_by_email,\n\t\tcontactedByLetter = contacted_by_letter,\n\t\tcontactedByPhone = contacted_by_phone,\n\t\tcontactedBySms = contacted_by_sms,\n\t\tisEmailCiamVerified = is_email_ciam_verified,\n\t\tisMobileCIamVerified = is_mobile_ciam_verified,\n\t\taccountIdentifier = account_identifier,\n\t\tupdatedAt = updated_at,\n\t\tvip,\n\t\tcaseNumber = case_number,\n\t\ttaxNumber = tax_number,\n\t\tidentificationNumber = identification_number,\n\t\tidentificationType = identification_type,\n\t\trevision_timestamp,\n\t\tdonateGui = donate_gui,\n\t\teGuiPreference = e_gui_preference,\n\t\tmobilePhoneCarrier = mobile_phone_carrier,\n\t\tplaceOfBirth = place_of_birth,\n\t\tgenderOfBirth = gender_of_birth,\n\t\tlowerEmail = lower_email,\n\t\tcitizenshipDigitalCertificateCarrier = citizenship_digital_certificate_carrier,\n\t\txTrackingId = tracking_id,\n\t\txServiceName = service_name,\n\t\txApplicationName = application_name,\n\t\txActingUser = acting_user,\n\t\ttoasAccepted = toas_accepted\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectColumns\nSelectColumns sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\theader as string,\n\t\tpayload as string,\n\t\tmicroService as string,\n\t\toperationType as string,\n\t\tdomainType as string,\n\t\tbirthday as string,\n\t\tciamId as string,\n\t\tcreatedAt as string,\n\t\tcreatedBy as string,\n\t\temail as string,\n\t\tfirstName as string,\n\t\tlandlinePhone as string,\n\t\tlastName1 as string,\n\t\tlastName2 as string,\n\t\tmiddleInitial as string,\n\t\tmobilePhone as string,\n\t\tnamePrefix as string,\n\t\tpreferredLanguageCode as string,\n\t\tsalutationCode as string,\n\t\ttitle as string,\n\t\tuserId as string,\n\t\tverifiedAt as string,\n\t\tverifiedBy as string,\n\t\taddressLine1 as string,\n\t\taddressLine2 as string,\n\t\taddressLine3 as string,\n\t\tcity as string,\n\t\tdoorNo as string,\n\t\tfloorNo as string,\n\t\thouseNo as string,\n\t\thouseName as string,\n\t\tprovince as string,\n\t\tstate as string,\n\t\tstreet as string,\n\t\tstreetType as string,\n\t\tzipCode as string,\n\t\tpobox as string,\n\t\tcountryCode as string,\n\t\tcontactedByEmail as string,\n\t\tcontactedByLetter as string,\n\t\tcontactedByPhone as string,\n\t\tcontactedBySms as string,\n\t\tisEmailCiamVerified as string,\n\t\tisMobileCIamVerified as string,\n\t\taccountIdentifier as string,\n\t\tupdatedAt as string,\n\t\tvip as string,\n\t\tcaseNumber as string,\n\t\ttaxNumber as string,\n\t\tidentificationNumber as string,\n\t\tidentificationType as string,\n\t\tdonateGui as string,\n\t\teGuiPreference as string,\n\t\tmobilePhoneCarrier as string,\n\t\tplaceOfBirth as string,\n\t\tgenderOfBirth as string,\n\t\tlowerEmail as string,\n\t\tcitizenshipDigitalCertificateCarrier as string,\n\t\txTrackingId as string,\n\t\txServiceName as string,\n\t\txApplicationName as string,\n\t\txActingUser as string\n\t),\n\ttruncate: true,\n\tpartitionBy('key',\n\t\t0,\n\t\trevision_timestamp\n\t)) ~> ExportBlob"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ups_nonprodcn')]",
+				"[concat(variables('factoryId'), '/datasets/Ups_UserHistoryBlob')]"
 			]
 		},
 		{
