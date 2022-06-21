@@ -15,10 +15,6 @@
 			"type": "secureString",
 			"defaultValue": "[parameters('AzureMySql1_connectionString')]"
 		},
-		"ups_nonprodcn_connectionString": {
-			"type": "secureString",
-			"defaultValue": "[parameters('ups_nonprodcn_connectionString')]"
-		},
 		"Ups_UserHistoryBlob_connectionString": {
 			"type": "secureString",
 			"defaultValue": "[parameters('Ups_UserHistoryBlob_connectionString')]"
@@ -26,6 +22,10 @@
 		"hstbufferstoragecn_connectionString": {
 			"type": "secureString",
 			"defaultValue": "[parameters('hstbufferstoragecn_connectionString')]"
+		},
+		"ups_nonprodcn_connectionString": {
+			"type": "secureString",
+			"defaultValue": "[parameters('ups_nonprodcn_connectionString')]"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",

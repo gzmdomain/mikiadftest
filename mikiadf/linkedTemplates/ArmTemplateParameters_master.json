@@ -11,14 +11,14 @@
 		"AzureMySql1_connectionString": {
 			"value": "[parameters('AzureMySql1_connectionString')]"
 		},
-		"ups_nonprodcn_connectionString": {
-			"value": "[parameters('ups_nonprodcn_connectionString')]"
-		},
 		"Ups_UserHistoryBlob_connectionString": {
 			"value": "[parameters('Ups_UserHistoryBlob_connectionString')]"
 		},
 		"hstbufferstoragecn_connectionString": {
 			"value": "[parameters('hstbufferstoragecn_connectionString')]"
+		},
+		"ups_nonprodcn_connectionString": {
+			"value": "[parameters('ups_nonprodcn_connectionString')]"
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://datalakemiki.dfs.core.chinacloudapi.cn"
